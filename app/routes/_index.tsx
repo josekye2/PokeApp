@@ -11,6 +11,7 @@ interface LoaderData {
   page: number;
 }
 
+
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") || "1");
@@ -31,19 +32,27 @@ export default function Index() {
   const { pokemons, page } = useLoaderData<LoaderData>();
 
   return (
-    <div>
-      <h1>Pokémon List</h1>
-      <ul>
+    <div className="p-4">
+      <h1 className="text-3xl font-bold text-blue-500 mb-4">Pokémon List</h1>
+      <ul className="list-none">
         {pokemons.map((pokemon) => (
-          <li key={pokemon.name}>
-            <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
+          <li key={pokemon.name} className="mb-2">
+            <Link to={`/pokemon/${pokemon.name}`} className="text-blue-500 hover:underline">
+              {pokemon.name}
+            </Link>
           </li>
         ))}
       </ul>
 
-      <div>
-        {page > 1 && <Link to={`/?page=${page - 1}`}>Anterior</Link>}
-        <Link to={`/?page=${page + 1}`}>Siguiente</Link>
+      <div className="mt-4 flex gap-2">
+        {page > 1 && (
+          <Link to={`/?page=${page - 1}`} className="text-blue-500 border border-blue-500 px-4 py-1 rounded hover:bg-blue-500 hover:text-white">
+            Anterior
+          </Link>
+        )}
+        <Link to={`/?page=${page + 1}`} className="text-blue-500 border border-blue-500 px-4 py-1 rounded hover:bg-blue-500 hover:text-white">
+          Siguiente
+        </Link>
       </div>
     </div>
   );
